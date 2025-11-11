@@ -1,14 +1,10 @@
 "use client";
 
+import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 import IssueSchema from "@/app/validationSchema";
-import {
-  Button,
-  Callout,
-  Flex,
-  Heading,
-  Text,
-  TextField,
-} from "@radix-ui/themes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button, Callout, Flex, Heading, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
@@ -17,14 +13,13 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BiInfoCircle } from "react-icons/bi";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import ErrorMessage from "@/app/components/ErrorMessage";
 
 type IssueForm = z.infer<typeof IssueSchema>;
 
 const NewIssue = () => {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [isSubmitting, setSubmitting] = useState(false);
   const {
     register,
     control,
@@ -51,9 +46,11 @@ const NewIssue = () => {
       <form
         onSubmit={handleSubmit(async (data) => {
           try {
+            setSubmitting(true);
             await axios.post("/api/issues", data);
             router.push("/");
           } catch (error) {
+            setSubmitting(false);
             setError("Unexpected error occured");
           }
         })}
@@ -85,7 +82,13 @@ const NewIssue = () => {
               />
               <ErrorMessage>{errors.description?.message}</ErrorMessage>
             </div>
-            <Button type="submit">Submit New Issue</Button>
+            <Button disabled={isSubmitting} type="submit">
+              {isSubmitting ? (
+                <Spinner text="Submitting..." />
+              ) : (
+                "Submit New Issue"
+              )}
+            </Button>
           </div>
         </Flex>
       </form>
