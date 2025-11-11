@@ -29,7 +29,7 @@ const NavBar = () => {
               href={link.href}
               className={`${
                 currentPath === link.href ? "text-purple-600" : "text-slate-700"
-              } transition-colors hover:text-purple-600`}
+              } transition-colors text-lg font-bold hover:text-purple-600`}
             >
               {link.label}
             </Link>
