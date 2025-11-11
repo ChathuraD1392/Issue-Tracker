@@ -1,6 +1,14 @@
 "use client";
 
-import { Button, Callout, Flex, Heading, TextField } from "@radix-ui/themes";
+import IssueSchema from "@/app/validationSchema";
+import {
+  Button,
+  Callout,
+  Flex,
+  Heading,
+  Text,
+  TextField,
+} from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
@@ -8,15 +16,23 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { BiInfoCircle } from "react-icons/bi";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-interface IssueForm {
-  title: string;
-  description: string;
-}
+type IssueForm = z.infer<typeof IssueSchema>;
+
 const NewIssue = () => {
   const router = useRouter();
   const [error, setError] = useState("");
-  const { register, control, handleSubmit } = useForm<IssueForm>();
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IssueForm>({
+    resolver: zodResolver(IssueSchema),
+    defaultValues: { title: "", description: "" },
+  });
   const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
     ssr: false,
   });
@@ -46,15 +62,36 @@ const NewIssue = () => {
             Create your New Issue
           </Heading>
           <div className="space-y-5">
-            <TextField.Root placeholder="Title" {...register("title")} />
-            <Controller
-              control={control}
-              name="description"
-              render={({ field }) => (
-                <SimpleMDE placeholder="Description" {...field} />
+            <div>
+              <TextField.Root placeholder="Title" {...register("title")} />
+              {errors.title && (
+                <Text color="red" as="p">
+                  {errors.title.message}
+                </Text>
               )}
-            />
-
+            </div>
+            <div>
+              <Controller
+                control={control}
+                name="description"
+                render={({ field }) => (
+                  <SimpleMDE
+                    placeholder="Description"
+                    {...field}
+                    onChange={(value) =>
+                      field.onChange(
+                        value === undefined ? "" : value.toString()
+                      )
+                    }
+                  />
+                )}
+              />
+              {errors.description && (
+                <Text color="red" as="p">
+                  {errors.description?.message}
+                </Text>
+              )}
+            </div>
             <Button type="submit">Submit New Issue</Button>
           </div>
         </Flex>
