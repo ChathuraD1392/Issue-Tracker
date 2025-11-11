@@ -13,11 +13,11 @@ const NavBar = () => {
   ];
   return (
     <div>
-      <nav className="flex space-x-8 mb-5 border-b p-5 items-center border-purple-800">
+      <nav className="flex space-x-8 mb-5 border-b p-5 items-center border-green-400">
         <Link
           href="/"
           className={`${
-            currentPath === "/" ? "text-purple-600" : "text-slate-700"
+            currentPath === "/" ? "text-green-400" : "text-green-600"
           } text-lg`}
         >
           {<AiFillBug />}
@@ -28,8 +28,8 @@ const NavBar = () => {
               key={index}
               href={link.href}
               className={`${
-                currentPath === link.href ? "text-purple-600" : "text-slate-700"
-              } transition-colors text-lg font-bold hover:text-purple-600`}
+                currentPath === link.href ? "text-green-400" : "text-green-600"
+              } transition-colors text-lg font-bold hover:text-green-400`}
             >
               {link.label}
             </Link>
