@@ -18,6 +18,7 @@ import { Controller, useForm } from "react-hook-form";
 import { BiInfoCircle } from "react-icons/bi";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 type IssueForm = z.infer<typeof IssueSchema>;
 
@@ -64,11 +65,7 @@ const NewIssue = () => {
           <div className="space-y-5">
             <div>
               <TextField.Root placeholder="Title" {...register("title")} />
-              {errors.title && (
-                <Text color="red" as="p">
-                  {errors.title.message}
-                </Text>
-              )}
+              <ErrorMessage>{errors.title?.message}</ErrorMessage>
             </div>
             <div>
               <Controller
@@ -86,11 +83,7 @@ const NewIssue = () => {
                   />
                 )}
               />
-              {errors.description && (
-                <Text color="red" as="p">
-                  {errors.description?.message}
-                </Text>
-              )}
+              <ErrorMessage>{errors.description?.message}</ErrorMessage>
             </div>
             <Button type="submit">Submit New Issue</Button>
           </div>
