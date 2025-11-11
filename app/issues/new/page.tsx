@@ -32,6 +32,16 @@ const NewIssue = () => {
   const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
     ssr: false,
   });
+  const onSubmit = handleSubmit(async (data) => {
+    try {
+      setSubmitting(true);
+      await axios.post("/api/issues", data);
+      router.push("/");
+    } catch (error) {
+      setSubmitting(false);
+      setError("Unexpected error occured");
+    }
+  });
 
   return (
     <div className="max-w-xl">
@@ -43,18 +53,7 @@ const NewIssue = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setSubmitting(true);
-            await axios.post("/api/issues", data);
-            router.push("/");
-          } catch (error) {
-            setSubmitting(false);
-            setError("Unexpected error occured");
-          }
-        })}
-      >
+      <form onSubmit={onSubmit}>
         <Flex direction="column" gap="6">
           <Heading as="h3" weight="bold" className="mb-32">
             Create your New Issue
