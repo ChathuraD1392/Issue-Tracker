@@ -1,5 +1,5 @@
-import { Box, Button, Flex, Skeleton } from "@radix-ui/themes";
-import "react-loading-skeleton/dist/skeleton.css";
+import { Box, Button, Flex } from "@radix-ui/themes";
+import { Skeleton } from "@/app/components/index";
 
 const LoadingNewIssue = async () => {
   return (
