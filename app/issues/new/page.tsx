@@ -32,7 +32,7 @@ const NewIssue = () => {
   const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
     ssr: false,
   });
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: IssueForm) => {
     try {
       setSubmitting(true);
       await axios.post("/api/issues", data);

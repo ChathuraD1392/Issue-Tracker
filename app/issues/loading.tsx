@@ -1,6 +1,5 @@
 import { Skeleton, Table } from "@radix-ui/themes";
 import "react-loading-skeleton/dist/skeleton.css";
-import IssueStatus from "../components/IssueStatus";
 import CreateIssueButton from "./CreateIssueButton";
 
 const LoadingIssuesPage = () => {

@@ -3,11 +3,10 @@ import { Table } from "@radix-ui/themes";
 import delay from "delay";
 import IssueStatus from "../components/IssueStatus";
 import CreateIssueButton from "./CreateIssueButton";
-import Link from "next/link";
+import Link from "../components/Link";
 
 const IssuePage = async () => {
   const issues = await prisma.issue.findMany();
-  await delay(2000);
 
   return (
     <div>
