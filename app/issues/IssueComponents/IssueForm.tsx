@@ -15,6 +15,9 @@ import { Controller, useForm } from "react-hook-form";
 import { BiInfoCircle } from "react-icons/bi";
 import { z } from "zod";
 
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 interface Props {
   heading: string;
   issue?: Issue;
@@ -37,15 +40,13 @@ const IssueForm = ({ issue, heading }: Props) => {
       description: issue?.description || "",
     },
   });
-  const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
-    ssr: false,
-  });
   const onSubmit = handleSubmit(async (data: IssueFormData) => {
     try {
       setSubmitting(true);
       if (issue) await axios.patch("/api/issues/" + issue.id, data);
       else await axios.post("/api/issues", data);
-      router.push("/");
+      router.push("/issues");
+      router.refresh();
     } catch (error) {
       setSubmitting(false);
       setError("Unexpected error occured");

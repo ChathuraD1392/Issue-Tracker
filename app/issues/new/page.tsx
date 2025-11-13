@@ -1,6 +1,12 @@
-import React from "react";
-import IssueForm from "../IssueComponents/IssueForm";
+"use client";
 
+import dynamic from "next/dynamic";
+import LoadingSkeleton from "./loading";
+
+const IssueForm = dynamic(() => import("../IssueComponents/IssueForm"), {
+  ssr: false,
+  loading: () => <LoadingSkeleton />,
+});
 const CreateIssuePage = () => {
   return <IssueForm heading="Create Your Issue " />;
 };
