@@ -2,7 +2,7 @@
 
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import IssueSchema from "@/app/validationSchema";
+import { CreateIssueSchema } from "@/app/validationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
 import { Button, Callout, Flex, Heading, TextField } from "@radix-ui/themes";
@@ -22,7 +22,7 @@ interface Props {
   heading: string;
   issue?: Issue;
 }
-type IssueFormData = z.infer<typeof IssueSchema>;
+type IssueFormData = z.infer<typeof CreateIssueSchema>;
 
 const IssueForm = ({ issue, heading }: Props) => {
   const router = useRouter();
@@ -34,7 +34,7 @@ const IssueForm = ({ issue, heading }: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<IssueFormData>({
-    resolver: zodResolver(IssueSchema),
+    resolver: zodResolver(CreateIssueSchema),
     defaultValues: {
       title: issue?.title || "",
       description: issue?.description || "",

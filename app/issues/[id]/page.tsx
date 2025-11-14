@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import EditButton from "./_components/EditButton";
 import IssueDetails from "./_components/IssueDetails";
 import DeleteButton from "./_components/DeleteButton";
+import SelectAssign from "@/app/components/SelectAssign";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -24,6 +25,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
       </Box>
       <Box>
         <Flex direction="column" gap="3" justify="center">
+          <SelectAssign />
           <EditButton issueId={issueId} />
           <DeleteButton issueId={issueId} />
         </Flex>
